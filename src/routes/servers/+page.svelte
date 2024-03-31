@@ -69,11 +69,15 @@
     }
 </script>
 
+<svelte:head>
+    <title>Receiver List</title> 
+</svelte:head>
+
 <style lang="postcss">
     :global(body) {
-      @apply bg-slate-900;
+        @apply bg-slate-900;
     }
-  </style>
+</style>
 
 <div class="flex items-center justify-center flex-col">
     <div class="mb-2">
