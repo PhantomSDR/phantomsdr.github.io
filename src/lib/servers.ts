@@ -6,7 +6,7 @@ export type SDRServer = {
     antenna: string;
     bandwidth: number;
     users: number;
-    center_frequency: number;
+    base_frequency: number;
     url: string;
     remarks: string;
     description: string;
