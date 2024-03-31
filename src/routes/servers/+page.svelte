@@ -87,7 +87,7 @@
         <span class="text-white mx-2">-</span>
         <input type="text" value="{endMHz.toFixed(3)}" class="w-20 bg-gray-800 text-center"/>MHz
     </div>
-    <div class="grid grid-cols-4 gap-4 justify-start w-3/4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 justify-start w-3/4">
         {#each receivers as {server, elem, visible}}
             <a class="flex p-2 bg-gradient-to-r from-gray-800
                         hover:from-gray-700 hover:to-gray-900
