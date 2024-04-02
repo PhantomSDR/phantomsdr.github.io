@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
     import type { SDRServer } from '$lib/servers';
     import DoubleRangeSlider from '$lib/DoubleRangeSlider.svelte';
+    import Url from 'url-parse';
 
     type Receiver = {
         server: SDRServer,
@@ -67,6 +68,10 @@
         }
         receivers = receivers;
     }
+
+    function getHost(url : string) {
+        return new Url(url).host;
+    }
 </script>
 
 <svelte:head>
@@ -91,6 +96,7 @@
         <span class="text-white mx-2">-</span>
         <input type="text" value="{endMHz.toFixed(3)}" class="w-20 bg-gray-800 text-center"/>MHz
     </div>
+    <!-- Credit to Steven9101 for the design -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 justify-start w-3/4">
         {#each receivers as {server, elem, visible}}
             <a class="flex p-2 bg-gradient-to-r from-gray-800
@@ -99,39 +105,45 @@
                         transition-all transition-visibility
                         duration-100 ease-in-out
                         {visible ? 'opacity-100 visible' : 'opacity-0 hidden'}
-                        text-sm text-white"
+                        text-sm text-white overflow-hidden"
                         href="{server.url}"
                         bind:this={elem}>
-                <div class="ml-2">
+                <div>
                     <div class="flex items-center h-6">
                         <div class="w-8 flex items-center justify-center">
                             <i class="fa-solid fa-house-circle-exclamation"></i>
                         </div>
-                        <p class="ml-2">{server.name}</p>
+                        <p class="ml-2 text-ellipsis">{server.name}</p>
+                    </div>
+                    <div class="flex items-center h-6">
+                        <div class="w-8 flex items-center justify-center">
+                            <i class="fa-solid fa-microchip"></i>
+                        </div>
+                        <p class="ml-2 text-ellipsis">{server.hardware}</p>
                     </div>
                     <div class="flex items-center h-6">
                         <div class="w-8  flex items-center justify-center">
                             <i class="fa-solid fa-satellite-dish"></i>
                         </div>
-                        <p class="ml-2">{server.antenna}</p>
+                        <p class="ml-2 text-ellipsis">{server.antenna}</p>
                     </div>
                     <div class="flex items-center h-6">
                         <div class="w-8  flex items-center justify-center">
                             <i class="fa-solid fa-arrows-left-right"></i>
                         </div>
-                        <p class="ml-2">{(server.base_frequency/1000000).toFixed(3)} - {((server.base_frequency + server.bandwidth)/1000000).toFixed(3)} MHz</p>
+                        <p class="ml-2 text-ellipsis">{(server.base_frequency/1000000).toFixed(3)} - {((server.base_frequency + server.bandwidth)/1000000).toFixed(3)} MHz</p>
                     </div>
                     <div class="flex items-center h-6">
                         <div class="w-8 flex items-center justify-center">
                             <i class="fa-regular fa-user"></i>
                         </div>
-                        <p class="ml-2">{server.users}</p>
+                        <p class="ml-2 text-ellipsis">{server.users}</p>
                     </div>
                     <div class="flex items-center h-6">
                         <div class="w-8 flex items-center justify-center">
                             <i class="fa-solid fa-link"></i>
                         </div>
-                        <p class="ml-2">{server.url}</p>
+                        <p class="ml-2">{getHost(server.url)}</p>
                     </div>
                 </div>
             </a>
